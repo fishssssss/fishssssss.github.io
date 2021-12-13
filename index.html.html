@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>百年党史</title>
+<link href="css/党建css.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<!--头部 开始-->
+<div class="head">
+<div class="left"><img src="images/logo-1 (3).png"/></div>
+<div class="right"><img src="images/习近平语录-2.png" /></div>
+</div>
+<!--头部 结束-->
+
+<!--导航栏 开始-->
+<div id="nav">
+     <ul class="nav" >
+     <li><a href="#" class="color_in">党建首页</a></li>
+     <li><a href="#">新闻动态</a></li>
+     <li><a href="#">党史学习</a></li>
+     <li><a href="file:///C:/Users/Administrator/Desktop/%E7%99%BE%E5%B9%B4%E5%85%9A%E5%8F%B2/%E5%85%9A%E5%91%98%E9%A3%8E%E9%87%87.html" target="_blank">党员风采</a></li>
+     <li><a href="file:///C:/Users/Administrator/Desktop/%E7%99%BE%E5%B9%B4%E5%85%9A%E5%8F%B2/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83.html" target="_blank">个人中心</a></li>
+     </ul>
+</div>
+<!--导航栏 结束-->
+
+<!--轮播图 开始-->
+<div id="wrap">
+      <!-- 图片列表 -->
+      <div class="img-list">
+        <img src="images/1-红色中国.jpg"/>
+        <img src="images/2-初心.jpg"/>
+        <img src="images/5-习近平会议图.jpg" />
+        <img src="images/4-人民心中的习近平.jpg" />
+        <img src="images/3-习近平.jpg"/>
+      </div>
+
+
+      <!-- 小圆点 -->
+      <ul class="circle-list">
+        <li class="circle active" data-n="0"></li>
+        <li class="circle" data-n="1"></li>
+        <li class="circle" data-n="2"></li>
+        <li class="circle" data-n="3"></li>
+        <li class="circle" data-n="4"></li>
+      </ul>
+    </div>
+    <script>
+      // 获取左右按钮和图片列表
+      let oLeft = document.querySelector(".left");
+      let oRight = document.querySelector(".right");
+      let oImgList = document.querySelector(".img-list");
+
+      // 克隆第一张图片
+      let clonefirstImg = oImgList.firstElementChild.cloneNode();
+      // 将第一张图片添加至图片列表的末尾
+      oImgList.appendChild(clonefirstImg);
+
+      // 图片索引 代表当前是第几张图片  index:0代表第一张图片
+      let index = 0;
+
+      // 设置函数节流锁
+      let lock = true;
+      function handleRightBtn() {
+        if (!lock) return;
+        index++;
+        oImgList.style.left = index * -1226 + "px";
+        // 为什么要加过渡? 因为切换到了最后一张假图时会将过渡去掉
+        oImgList.style.transition = "0.5s ease";
+
+        if (index === 5) {
+          index = 0;
+          setTimeout(() => {
+            oImgList.style.left = 0;
+            // 取消过渡 500毫秒之后切换第一张
+            oImgList.style.transition = "none";
+          }, 500);
+        }
+
+        // 设置小圆点的高亮
+        setCircles();
+        // 关锁
+        lock = false;
+        setTimeout(() => {
+          lock = true;
+        }, 500);
+      }
+
+      // 右按钮的实现
+      oRight.addEventListener("click", handleRightBtn);
+
+      // 左按钮的实现  瞬间切换到假图然后拉到真实最后一张图片
+      oLeft.addEventListener("click", () => {
+        if (!lock) return;
+        index--;
+        if (index === -1) {
+          oImgList.style.left = 5 * -1226 + "px";
+          oImgList.style.transition = "none";
+          index = 4;
+          setTimeout(() => {
+            oImgList.style.left = index * -1226 + "px";
+            oImgList.style.transition = "0.5s ease";
+          }, 0);
+        } else {
+          oImgList.style.left = index * -1226 + "px";
+        }
+
+        // 设置小圆点的高亮
+        setCircles();
+
+        lock = false;
+        setTimeout(() => {
+          lock = true;
+        }, 500);
+      });
+
+      // 获取五个小圆点
+      const circles = document.querySelectorAll(".circle");
+
+      // 小圆点高亮的显示
+      function setCircles() {
+        for (let i = 0; i < circles.length; i++) {
+          if (i === index) {
+            circles[i].classList.add("active");
+          } else {
+            circles[i].classList.remove("active");
+          }
+        }
+      }
+
+      // 小圆点点击切换图片 使用事件代理
+      const oCircle = document.querySelector(".circle-list");
+      oCircle.addEventListener("click", (e) => {
+        // 当我点击小圆点的时候
+        if (e.target.nodeName.toLowerCase() === "li") {
+          // 当前元素的data-n对应得值 和index一一对应
+          const n = Number(e.target.getAttribute("data-n"));
+          index = n;
+          setCircles();
+          oImgList.style.transition = "0.5s ease";
+          oImgList.style.left = index * -1226 + "px";
+        }
+      });
+
+      // 自动轮播
+      let autoplay = setInterval(handleRightBtn, 2000);
+      const oWrap = document.getElementById("wrap");
+      // 移入停止轮播
+      oWrap.addEventListener("mouseenter", () => {
+        clearInterval(autoplay);
+      });
+      // 移出继续轮播
+      oWrap.addEventListener("mouseleave", () => {
+        // 设表先关
+        clearInterval(autoplay);
+        autoplay = setInterval(handleRightBtn, 2000);
+      });
+
+      // https://segmentfault.com/a/1190000018445196
+    </script>
+<!--轮播图 结束-->
+
+<!--知识学习 开始-->
+<div id="knowledge">
+  <h2 class="p" align="center">知&nbsp;识&nbsp;学&nbsp;习&nbsp;</h2>
+  
+   <div class="knowledge_con">
+      <img src="images/十四.png" />
+      <h3 class="2.1">十四五规划</h3>
+      <hr />
+      <p class="two">“十四五”时期是我国全面建成小康社会、实现第一个百年奋斗目标之后，乘势而上开启全面建设社会主义现代化国家新征程、向第二个百年奋斗目标进军的第一个五年。</p>
+      <p class="shadow"></p>
+   </div>
+   
+   <div class="knowledge_con">
+      <img src="images/时间.png" />
+      <h3 class="2.1">百年党史学习</h3>
+      <hr />
+      <p class="two">2021年是中国共产党百年华诞。中国站在“两个一百年”的历史交汇点，全面建设社会主义现代化国家新征程即将开启，聚焦中国共产党矢志不渝为人民谋幸福，为民族谋复兴，为世界谋大同。</p>
+      <p class="shadow"></p>
+   </div>
+   
+   <div class="knowledge_con">
+     <img src="images/党史.png" />
+     <h3 class="2.1">不忘初心，牢记使命</h3>
+     <hr />
+     <p class="two">“不忘初心、牢记使命”主题教育是在全党范围内开展的主题教育活动，是推动全党更加自觉地为实现新时代党的历史使命不懈奋斗的重要内容。</p>
+     <p class="shadow"></p>
+   </div>
+</div>
+<!--knowledge end-->
+<!--知识学习 结束-->
+
+<!--基层组织建设开始-->
+<div id="content">
+     <h2 class="header" align="center" >基层组织建设</h2>
+<table class="all" >
+   <tr align="center" valign="middle">
+      <td class="little">提出建议</td>
+      <td class="little">反馈信息</td>
+      <td class="little">服务投诉</td>
+      <td class="little">廉政建设</td>
+   </tr>
+   <tr align="center" valign="middle">
+      <td class="little">问题咨询</td>
+      <td class="little">新闻投稿</td>
+      <td class="little">调查问卷</td>
+      <td class="little">文章征稿</td>
+   </tr>
+</table>
+</div>
+<!--基层组织建设 结束-->
+
+<!--页脚 开始-->
+<div id="footer">Copyright 2018-2021 by www.bainian.cn. all rightsreserved</div>
+<!--页脚 结束-->
+<!--100周年开始-->
+<div class="tree"><img src="images/100-2.png" /></div>
+<!--100周年结束-->
+
+</body>
+
+</html>

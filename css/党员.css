@@ -1,0 +1,47 @@
+/*重置浏览器的默认样式*/
+*(margin:0; padding:0;list-style:none; outline:none; border:0; background:none;) 
+/*全局控制*/
+body{font-family:"微软雅黑"; font-size:32px;}
+a:link,a:visited{ text-decoration:none; color:#fff;}
+a:hover{text-decoration:none}
+.head{
+	width:980px;
+	margin:0 auto;
+	height:50px;
+	padding-top:30px
+}
+.head .left{float:left;}
+.head .right{float:right;}
+#nav{
+	width:100%;
+	background:#a9110c;
+}
+.nav{
+	width:1080px;
+	height:40px;
+	line-height:40px;
+	margin:0 auto;
+	text-align:center;
+	font-size:16px;
+	font-weight:545;
+}
+.nav li{float:left;
+list-style:none;}
+.nav a{
+	display:inline-block;
+	padding:0 40px;	
+}
+.nav a:hover{background:#f8d019;}
+.nav .color_in{background:#f8d019;}
+/*all*/
+#content{
+	width:980px;
+	height:1150px;
+	margin:0 auto;
+}
+.header{color:#a9110c;
+        text-align:center;
+}
+
+
+	 
